@@ -1,0 +1,77 @@
+<!--
+     根标记:
+     根属性:
+     unmerge (true|false) - 是否合并数据(true:数据合并将error显示到info等文件中)
+-->
+<logging unmerge="true">
+    <!--
+         过滤器:
+         过滤器属性:
+         enabled (true|false) - 是否启用本过滤器
+    -->
+    <filter enabled="true">
+        <!-- 
+             输出类型 (console|file) 
+        -->
+        <type>console</type>
+        <!-- 
+             输出等级 (DEBUG|TRACE|INFO|WARNING|ERROR)
+        -->
+        <level>DEBUG</level>
+        <!--
+             输出格式:
+             %T - 时间 (15:04:05)
+             %D - 日期 (2006/01/02)
+             %L - 等级 (DEBG, TRAC, WARN, EROR)
+             %S - 源文件路径
+             %M - 信息
+             例: "[%D %T] [%L] (%S) %M"
+        -->
+        <property name="format">[%D] [%L] [%S] %M</property>
+    </filter>
+    <!--
+         过滤器:
+         过滤器属性:
+         enabled (true|false) - 是否启用本过滤器
+    -->
+    <filter enabled="true">
+        <!-- 
+             输出类型 (console|file) 
+        -->
+        <type>file</type>
+        <!-- 
+             输出等级 (DEBUG|TRACE|INFO|WARNING|ERROR)
+        -->
+        <level>INFO</level>
+        <!--
+             输出格式:
+             %T - 时间 (15:04:05)
+             %D - 日期 (2006/01/02)
+             %L - 等级 (DEBG, TRAC, WARN, EROR)
+             %S - 源文件路径
+             %M - 信息
+             例: "[%D %T] [%L] (%S) %M"
+        -->
+        <property name="format">[%D %T] [%L] [%S] %M</property>
+        <!--
+             文件存储路径
+        -->
+        <property name="filename">E:\code_source\page_game\go\trunk\src\common\log4go.v1\examples\info.log</property>
+        <!--
+             文件切割体积 (k/m/g|K/M/G)
+        -->
+        <property name="maxsize">0M</property> <!-- \d+[KMG]? Suffixes are in terms of 2**10 -->
+        <!--
+             延迟写入 (s/m/h|S/M/H)
+        -->
+        <property name="delay">15s</property> <!-- \d+[SMH]?  Suffixes are in terms of 60 -->
+    </filter>
+    <filter enabled="true">
+        <type>file</type>
+        <level>ERROR</level>
+        <property name="format">[%D %T] [%L] [%S] %M</property>
+        <property name="filename">E:\code_source\page_game\go\trunk\src\common\log4go.v1\examples\eror.log</property>
+        <property name="maxsize">0M</property> <!-- \d+[KMG]? Suffixes are in terms of 2**10 -->
+        <property name="delay">15s</property> <!-- \d+[SMH]?  Suffixes are in terms of 60 -->
+    </filter>
+</logging>
