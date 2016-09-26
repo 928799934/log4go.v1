@@ -1,7 +1,7 @@
 package main
 
 import (
-	log "common/log4go.v1"
+	log "github.com/928799934/log4go.v1"
 )
 
 func main() {
@@ -14,12 +14,8 @@ func main() {
 		log.Debug("debug")
 		ll.Println("xxx")
 		log.Trace("trace")
-
-		//ll.Println("xxx")
 		log.Warn("warn")
-		//ll.Println("xxx")
 		log.Error("error")
-
 		log.Info("info asdadadlkjadadlkjalkjdalkjdlkjadlkjalkjdalkjdlkjadlkjada")
 	}
 }
