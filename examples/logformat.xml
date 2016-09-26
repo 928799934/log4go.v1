@@ -66,12 +66,4 @@
         -->
         <property name="delay">15s</property> <!-- \d+[SMH]?  Suffixes are in terms of 60 -->
     </filter>
-    <filter enabled="true">
-        <type>file</type>
-        <level>ERROR</level>
-        <property name="format">[%D %T] [%L] [%S] %M</property>
-        <property name="filename">E:\code_source\page_game\go\trunk\src\common\log4go.v1\examples\eror.log</property>
-        <property name="maxsize">0M</property> <!-- \d+[KMG]? Suffixes are in terms of 2**10 -->
-        <property name="delay">15s</property> <!-- \d+[SMH]?  Suffixes are in terms of 60 -->
-    </filter>
 </logging>
