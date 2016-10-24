@@ -5,12 +5,29 @@ import (
 )
 
 // template 模版适配器
-var adapter = strings.NewReplacer(
-	"%T", "{{if .TIME}}{{.TIME.Format \"15:04:05\"}}{{end}}",
-	"%D", "{{if .TIME}}{{.TIME.Format \"2006-01-02\"}}{{end}}",
-	"%L", "{{.LEVEL}}",
-	"%S", "{{.SOURCE}}",
-	"%M", "{{.MESSAGE}}",
+const (
+	T = 0x00000001
+	D = 0x00000010
+	L = 0x00000100
+	S = 0x00001000
+	M = 0x00010000
+)
+
+var (
+	options = map[string]int64{
+		"%T": T,
+		"%D": D,
+		"%L": L,
+		"%S": S,
+		"%M": M,
+	}
+	adapter = strings.NewReplacer(
+		"%T", "{{if .TIME}}{{.TIME.Format \"15:04:05\"}}{{end}}",
+		"%D", "{{if .TIME}}{{.TIME.Format \"2006-01-02\"}}{{end}}",
+		"%L", "{{.LEVEL}}",
+		"%S", "{{.SOURCE}}",
+		"%M", "{{.MESSAGE}}",
+	)
 )
 
 // 配置文件格式
