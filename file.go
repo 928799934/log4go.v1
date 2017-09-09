@@ -10,7 +10,7 @@ import (
 )
 
 // 文件
-type File struct {
+type logFile struct {
 	ext        string
 	name       string
 	path       string
@@ -24,7 +24,7 @@ type File struct {
 	closeEvent chan bool
 }
 
-func NewFile(name string, size, delay int) *File {
+func newLogFile(name string, size, delay int) *logFile {
 	// 取目录
 	dir := filepath.Dir(name)
 	// 取后缀名
@@ -33,7 +33,7 @@ func NewFile(name string, size, delay int) *File {
 	base := filepath.Base(name)
 	// 取文件名
 	name = strings.TrimSuffix(base, ext)
-	f := &File{
+	f := &logFile{
 		path:       dir,
 		ext:        ext,
 		name:       name,
@@ -55,7 +55,7 @@ func NewFile(name string, size, delay int) *File {
 }
 
 // 文件大小 控制
-func (this *File) fixSize(nlen int) error {
+func (this *logFile) fixSize(nlen int) error {
 	if this.maxsize == 0 || this.size+nlen < this.maxsize {
 		return nil
 	}
@@ -70,7 +70,7 @@ func (this *File) fixSize(nlen int) error {
 }
 
 // 打开文件
-func (this *File) Open() (err error) {
+func (this *logFile) Open() (err error) {
 	now := time.Now().Format("2006-01-02")
 	if now != this.day {
 		if this.file != nil {
@@ -90,7 +90,7 @@ func (this *File) Open() (err error) {
 }
 
 // 刷文件到磁盘
-func (this *File) flush() {
+func (this *logFile) flush() {
 	defer this.wg.Done()
 	delay := time.Second * time.Duration(this.delay)
 	t := time.NewTimer(delay)
@@ -107,7 +107,7 @@ func (this *File) flush() {
 }
 
 // 写入
-func (this *File) Write(p []byte) (n int, err error) {
+func (this *logFile) Write(p []byte) (n int, err error) {
 	this.Open()
 	this.fixSize(len(p))
 	n, err = this.file.Write(p)
@@ -122,7 +122,7 @@ func (this *File) Write(p []byte) (n int, err error) {
 }
 
 // 关闭
-func (this *File) Close() error {
+func (this *logFile) Close() error {
 	close(this.closeEvent)
 	this.wg.Wait()
 	this.file.Close()

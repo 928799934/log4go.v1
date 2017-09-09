@@ -6,10 +6,11 @@ const (
 	DEBUG level = iota
 	TRACE
 	INFO
-	WARNING
+	WARN
 	ERROR
+	MARK
 )
 
 var (
-	levelStrings = [...]string{"DEBG", "TRAC", "INFO", "WARN", "EROR"}
+	levelStrings = [...]string{"DEBG", "TRAC", "INFO", "WARN", "EROR","MARK"}
 )

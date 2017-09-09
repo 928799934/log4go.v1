@@ -1,7 +1,7 @@
 package main
 
 import (
-	log "log4go.v1"
+	log "github.com/928799934/log4go.v1"
 )
 
 func main() {
@@ -10,12 +10,18 @@ func main() {
 		if err := log.LoadConfiguration("logformat.xml"); err != nil {
 			return
 		}
-		ll := log.Logger(log.ERROR)
+		ll := log.Logger(log.DEBUG)
 		log.Debug("debug")
 		ll.Println("xxx")
-		log.Trace("trace")
-		log.Warn("warn")
-		log.Error("error")
-		log.Info("info asdadadlkjadadlkjalkjdalkjdlkjadlkjalkjdalkjdlkjadlkjada")
+		//log.Trace("trace")
+
+		//ll.Println("xxx")
+		//log.Warn("warn")
+		//ll.Println("xxx")
+		//log.Error("error")
+		//log.Error("error")
+		//log.Error("error")
+
+		//log.Info("info asdadadlkjadadlkjalkjdalkjdlkjadlkjalkjdalkjdlkjadlkjada")
 	}
 }

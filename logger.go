@@ -4,8 +4,11 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"os"
 	"sync"
 )
+
+var std = log.New(os.Stderr, "", log.LstdFlags)
 
 type Log4go struct {
 	filterWriters map[level]*log.Logger
@@ -28,7 +31,7 @@ func (this *Log4go) writing() {
 			return
 		}
 		// 降级判断
-		for lvl := DEBUG; lvl <= ERROR; lvl++ {
+		for lvl := DEBUG; lvl <= MARK; lvl++ {
 			if lvl > msg.Level {
 				break
 			}
@@ -78,14 +81,16 @@ func (this *Log4go) Logger(lvl level) *log.Logger {
 func (this *Log4go) Error(format string, v ...interface{}) {
 	logger := this.Logger(ERROR)
 	if logger == nil {
+		std.Output(2, fmt.Sprintf(format, v...))
 		return
 	}
 	logger.Output(2, fmt.Sprintf(format, v...))
 }
 
 func (this *Log4go) Warn(format string, v ...interface{}) {
-	logger := this.Logger(WARNING)
+	logger := this.Logger(WARN)
 	if logger == nil {
+		std.Output(2, fmt.Sprintf(format, v...))
 		return
 	}
 	logger.Output(2, fmt.Sprintf(format, v...))
@@ -94,6 +99,7 @@ func (this *Log4go) Warn(format string, v ...interface{}) {
 func (this *Log4go) Info(format string, v ...interface{}) {
 	logger := this.Logger(INFO)
 	if logger == nil {
+		std.Output(2, fmt.Sprintf(format, v...))
 		return
 	}
 	logger.Output(2, fmt.Sprintf(format, v...))
@@ -102,6 +108,7 @@ func (this *Log4go) Info(format string, v ...interface{}) {
 func (this *Log4go) Trace(format string, v ...interface{}) {
 	logger := this.Logger(TRACE)
 	if logger == nil {
+		std.Output(2, fmt.Sprintf(format, v...))
 		return
 	}
 	logger.Output(2, fmt.Sprintf(format, v...))
@@ -110,6 +117,16 @@ func (this *Log4go) Trace(format string, v ...interface{}) {
 func (this *Log4go) Debug(format string, v ...interface{}) {
 	logger := this.Logger(DEBUG)
 	if logger == nil {
+		std.Output(2, fmt.Sprintf(format, v...))
+		return
+	}
+	logger.Output(2, fmt.Sprintf(format, v...))
+}
+
+func (this *Log4go) Mark(format string, v ...interface{}) {
+	logger := this.Logger(MARK)
+	if logger == nil {
+		std.Output(2, fmt.Sprintf(format, v...))
 		return
 	}
 	logger.Output(2, fmt.Sprintf(format, v...))

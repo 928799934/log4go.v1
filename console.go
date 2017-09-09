@@ -5,21 +5,21 @@ import (
 )
 
 // 控制台
-type Console struct {
+type logConsole struct {
 	file *os.File
 }
 
-func NewConsole() *Console {
-	return &Console{os.Stdout}
+func newLogConsole() *logConsole {
+	return &logConsole{os.Stdout}
 }
 
 // 写入控制台
-func (this *Console) Write(p []byte) (n int, err error) {
+func (this *logConsole) Write(p []byte) (n int, err error) {
 	return this.file.Write(p)
 }
 
 // 关闭
-func (this *Console) Close() error {
+func (this *logConsole) Close() error {
 	this.file = nil
 	return nil
 }

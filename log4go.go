@@ -24,14 +24,16 @@ func Logger(l level) *log.Logger {
 func Error(format string, v ...interface{}) {
 	logger := log4go.Logger(ERROR)
 	if logger == nil {
+		std.Output(2, fmt.Sprintf(format, v...))
 		return
 	}
 	logger.Output(2, fmt.Sprintf(format, v...))
 }
 
 func Warn(format string, v ...interface{}) {
-	logger := log4go.Logger(WARNING)
+	logger := log4go.Logger(WARN)
 	if logger == nil {
+		std.Output(2, fmt.Sprintf(format, v...))
 		return
 	}
 	logger.Output(2, fmt.Sprintf(format, v...))
@@ -40,6 +42,7 @@ func Warn(format string, v ...interface{}) {
 func Info(format string, v ...interface{}) {
 	logger := log4go.Logger(INFO)
 	if logger == nil {
+		std.Output(2, fmt.Sprintf(format, v...))
 		return
 	}
 	logger.Output(2, fmt.Sprintf(format, v...))
@@ -48,6 +51,7 @@ func Info(format string, v ...interface{}) {
 func Trace(format string, v ...interface{}) {
 	logger := log4go.Logger(TRACE)
 	if logger == nil {
+		std.Output(2, fmt.Sprintf(format, v...))
 		return
 	}
 	logger.Output(2, fmt.Sprintf(format, v...))
@@ -56,6 +60,17 @@ func Trace(format string, v ...interface{}) {
 func Debug(format string, v ...interface{}) {
 	logger := log4go.Logger(DEBUG)
 	if logger == nil {
+		std.Output(2, fmt.Sprintf(format, v...))
+		return
+	}
+	logger.Output(2, fmt.Sprintf(format, v...))
+}
+
+
+func Mark(format string, v ...interface{}) {
+	logger := log4go.Logger(MARK)
+	if logger == nil {
+		std.Output(2, fmt.Sprintf(format, v...))
 		return
 	}
 	logger.Output(2, fmt.Sprintf(format, v...))

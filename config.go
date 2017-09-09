@@ -13,9 +13,9 @@ import (
 )
 
 var (
-	ErrAttr  = "LoadConfiguration: Error: Required attribute %s for filter missing in %s\n"
-	ErrFile  = "LoadConfiguration: Error: Could not parse XML configuration in %q: %s\n"
-	ErrChild = "LoadConfiguration: Error: Required child <%s> for filter missing in %s\n"
+	errAttr  = "LoadConfiguration: Error: Required attribute %s for filter missing in %s\n"
+	errFile  = "LoadConfiguration: Error: Could not parse XML configuration in %q: %s\n"
+	errChild = "LoadConfiguration: Error: Required child <%s> for filter missing in %s\n"
 )
 
 // 加载配置
@@ -29,7 +29,7 @@ func (this *Log4go) LoadConfiguration(filename string) error {
 
 	xc := new(xmlLoggerConfig)
 	if err := xml.Unmarshal(contents, xc); err != nil {
-		return fmt.Errorf(ErrFile, filename, err)
+		return fmt.Errorf(errFile, filename, err)
 	}
 
 	filterWriters := make(map[level]*log.Logger)
@@ -56,11 +56,13 @@ func (this *Log4go) LoadConfiguration(filename string) error {
 		case "INFO":
 			lvl = INFO
 		case "WARNING":
-			lvl = WARNING
+			lvl = WARN
 		case "ERROR":
 			lvl = ERROR
+		case "MARK":
+			lvl = MARK
 		default:
-			return fmt.Errorf(ErrChild, "level", filename)
+			return fmt.Errorf(errChild, "level", filename)
 		}
 
 		// 判断支持的输出类型
@@ -70,10 +72,10 @@ func (this *Log4go) LoadConfiguration(filename string) error {
 		case "file":
 			format, objWriterCloser = xmlToFileLogWriter(xmlfilt.Property)
 		default:
-			return fmt.Errorf(ErrChild, "type", filename)
+			return fmt.Errorf(errChild, "type", filename)
 		}
 
-		filterWriters[lvl] = log.New(NewBuffer(format, lvl, store), "", 0)
+		filterWriters[lvl] = log.New(newLogBuffer(format, lvl, store), "", 0)
 		filterReaders[lvl] = append(filterReaders[lvl], objWriterCloser)
 	}
 	this.filterWriters = filterWriters
@@ -132,7 +134,7 @@ func xmlToFileLogWriter(props []xmlProperty) (string, io.WriteCloser) {
 	if len(file) == 0 {
 		panic(fmt.Errorf("filetype: filename is empty"))
 	}
-	return format, NewFile(file, maxsize, delay)
+	return format, newLogFile(file, maxsize, delay)
 }
 
 func xmlToConsoleLogWriter(props []xmlProperty) (string, io.WriteCloser) {
@@ -144,5 +146,5 @@ func xmlToConsoleLogWriter(props []xmlProperty) (string, io.WriteCloser) {
 			format = strings.Trim(prop.Value, " \r\n")
 		}
 	}
-	return format, NewConsole()
+	return format, newLogConsole()
 }
